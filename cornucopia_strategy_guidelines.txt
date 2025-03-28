@@ -1,0 +1,1 @@
+CornucopiaStrategy: Master Project Folder — Follow all structural and modular rules as defined.
