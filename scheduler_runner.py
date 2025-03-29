@@ -1,3 +1,5 @@
+# Force Git to recognize this file
+
 import os
 import django
 import logging
