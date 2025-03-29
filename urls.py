@@ -3,5 +3,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('admin-dashboard/', include('features.admin_dashboard.urls', namespace='admin_dashboard')),
-]
+    path('admin-dashboard/', include(('features.admin_dashboard.urls', 'admin_dashboard'), namespace='admin_dashboard')),
+
