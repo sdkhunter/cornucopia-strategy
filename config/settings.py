@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'features.admin_dashboard',
+    'features.sample_feature',
+
 
 ]
 
