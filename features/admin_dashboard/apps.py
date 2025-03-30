@@ -1,5 +1,3 @@
-# features/admin_dashboard/apps.py
-
 from django.apps import AppConfig
 
 class AdminDashboardConfig(AppConfig):

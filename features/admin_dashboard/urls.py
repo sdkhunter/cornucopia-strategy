@@ -1,9 +1,7 @@
-from django.urls import path
-from . import views
-
-app_name = 'admin_dashboard'
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    path('', views.dashboard_home, name='dashboard_home'),
+    path('admin/', admin.site.urls),
+    path('admin-dashboard/', include('features.admin_dashboard.urls')),
 ]
-
