@@ -1,37 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Dashboard</title>
+    <title>Mission Control Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 text-gray-900">
-    <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold mb-6">Mission Control Dashboard</h1>
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-6">Mission Control Dashboard</h1>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div class="bg-white p-4 rounded shadow">
-                <h2 class="text-xl font-semibold mb-2">System Status</h2>
-                <p>Status: <span class="text-green-600 font-bold">Online</span></p>
-            </div>
-            <div class="bg-white p-4 rounded shadow">
-                <h2 class="text-xl font-semibold mb-2">Manual Trigger</h2>
-                <form method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Run Scheduler</button>
-                </form>
-            </div>
-        </div>
+    {% if message %}
+    <div class="bg-indigo-100 border border-indigo-400 text-indigo-700 px-4 py-2 rounded mb-4">
+        {{ message }}
+    </div>
+    {% endif %}
 
-        <div class="bg-white p-4 rounded shadow mb-6">
-            <h2 class="text-xl font-semibold mb-2">Scheduler Logs</h2>
-            <div class="bg-gray-100 p-2 h-64 overflow-y-scroll text-sm font-mono border border-gray-300">
-                {% for line in log_data %}
-                    <p>{{ line|linebreaksbr }}</p>
-                {% empty %}
-                    <p>No log entries found.</p>
-                {% endfor %}
-            </div>
+    <div class="bg-white p-4 rounded shadow mb-6">
+        <h2 class="text-xl font-semibold mb-2">System Health</h2>
+        <ul class="list-disc list-inside">
+            <li>Scheduler script: <span class="{{ 'text-green-600' if health.scheduler_present else 'text-red-600' }}">{{ 'Available' if health.scheduler_present else 'Missing' }}</span></li>
+            <li>Log file: <span class="{{ 'text-green-600' if health.log_accessible else 'text-red-600' }}">{{ 'Accessible' if health.log_accessible else 'Not Found' }}</span></li>
+            <li>MailerLite token: <span class="{{ 'text-green-600' if health.mailerlite_configured else 'text-red-600' }}">{{ 'Configured' if health.mailerlite_configured else 'Missing' }}</span></li>
+        </ul>
+    </div>
+
+    <!-- MailerLite Sync Button -->
+    <div class="bg-white p-4 rounded shadow mb-6">
+        <h2 class="text-xl font-semibold mb-2">Run MailerLite Sync</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="run_mailerlite_sync">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Start MailerLite Sync</button>
+        </form>
+    </div>
+
+    <!-- Execution Logs -->
+    <div class="bg-white p-4 rounded shadow mb-6">
+        <h2 class="text-xl font-semibold mb-2">Execution History</h2>
+        <div class="bg-gray-100 p-2 h-64 overflow-y-scroll text-sm font-mono border border-gray-300">
+            {% for line in log_data %}
+                <p>{{ line|linebreaksbr }}</p>
+            {% empty %}
+                <p>No log entries found.</p>
+            {% endfor %}
         </div>
     </div>
+</div>
 </body>
 </html>
