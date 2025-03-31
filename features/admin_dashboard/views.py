@@ -10,6 +10,7 @@ TEST_SCRIPT = 'test_placeholder_script.py'
 
 def dashboard(request):
     log_data = []
+    verifier_log = []
     message = ""
     health_status = {
         'scheduler_present': os.path.exists(SCHEDULER_SCRIPT),
@@ -50,6 +51,12 @@ def dashboard(request):
         with open(LOG_PATH, 'r') as f:
             log_data = f.readlines()[-20:]
 
+    if os.path.exists("subscriber_verification.log"):
+        with open("subscriber_verification.log", 'r') as f:
+            verifier_log = f.readlines()[-50:]
+        with open(LOG_PATH, 'r') as f:
+            log_data = f.readlines()[-20:]
+
     mock_subscriber_data = {
         'total': 1289,
         'new_this_week': 34,
@@ -58,6 +65,7 @@ def dashboard(request):
     }
 
     return render(request, 'admin_dashboard/dashboard.html', {
+        'verifier_log': verifier_log,
         'log_data': log_data,
         'health': health_status,
         'message': message,
