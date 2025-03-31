@@ -15,5 +15,12 @@ def run(script):
 if __name__ == "__main__":
     print("Starting full sync...
 ")
-    run("features/mailerlite_sync/fetch_subscribers.py")
-    run("features/mailerlite_sync/insert_subscribers.py")
+
+    scripts = [
+        "features/mailerlite_sync/fetch_subscribers.py",
+        "features/mailerlite_sync/insert_subscribers.py",
+        "features/subscriber_verifier/verify_subscribers.py"
+    ]
+
+    for script in scripts:
+        run(script)
