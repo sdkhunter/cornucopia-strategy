@@ -1,66 +1,63 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Mission Control Dashboard</title>
+    <link rel="stylesheet" href="{% static 'admin_dashboard/styles.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 text-gray-900">
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto p-6">
         <h1 class="text-3xl font-bold mb-6">Mission Control Dashboard</h1>
 
-        <!-- Log Viewer -->
-        <div class="bg-white p-4 rounded shadow mb-6">
-            <h2 class="text-xl font-semibold mb-2">System Log</h2>
-            <div class="bg-gray-100 p-2 h-32 overflow-y-scroll text-sm font-mono border border-gray-300">
-                {% for line in log_data %}
-                    <p>{{ line|linebreaksbr }}</p>
-                {% empty %}
-                    <p>No logs found.</p>
-                {% endfor %}
-            </div>
+        <div class="bg-white shadow rounded p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Actions</h2>
+            <form method="post" action="{% url 'run_orchestrator' %}" class="inline-block mr-4">
+                {% csrf_token %}
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Run Orchestrator
+                </button>
+            </form>
+            <form method="post" action="{% url 'fetch_subscribers' %}" class="inline-block">
+                {% csrf_token %}
+                <button type="submit" class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">
+                    Fetch Subscribers (Live)
+                </button>
+            </form>
         </div>
 
-        <!-- Verification Log -->
-        <div class="bg-white p-4 rounded shadow mb-6">
-            <h2 class="text-xl font-semibold mb-2">Subscriber Verification Log</h2>
-            <div class="bg-gray-100 p-2 h-64 overflow-y-scroll text-sm font-mono border border-gray-300">
-                {% for line in verifier_log %}
-                    <p>{{ line|linebreaksbr }}</p>
-                {% empty %}
-                    <p>No verification logs found.</p>
-                {% endfor %}
-            </div>
+        <div class="bg-white shadow rounded p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">System Log</h2>
+            <textarea class="w-full h-48 p-2 bg-gray-100 font-mono text-sm rounded resize-y" readonly>{{ system_log }}</textarea>
         </div>
 
-        <!-- Feature Toggles -->
-        <div class="bg-white p-4 rounded shadow">
-            <h2 class="text-xl font-semibold mb-2">Feature Toggles</h2>
-            <table class="w-full text-sm border">
-                <thead>
-                    <tr class="bg-gray-200 text-left">
-                        <th class="p-2">Feature</th>
-                        <th class="p-2">Status</th>
+        <div class="bg-white shadow rounded p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Subscriber Verification Log</h2>
+            <textarea class="w-full h-48 p-2 bg-gray-900 text-white font-mono text-sm rounded resize-y" readonly>{{ verification_log }}</textarea>
+        </div>
+
+        <div class="bg-white shadow rounded p-6">
+            <h2 class="text-xl font-semibold mb-4">Feature Toggles</h2>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Feature</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for toggle in toggles %}
-                        <tr class="border-t">
-                            <td class="p-2">{{ toggle.feature_name }}</td>
-                            <td class="p-2">
-                                {% if toggle.is_enabled %}
-                                    <span class="text-green-600 font-semibold">Enabled</span>
-                                {% else %}
-                                    <span class="text-red-600 font-semibold">Disabled</span>
-                                {% endif %}
+                    {% for toggle in feature_toggles %}
+                        <tr class="bg-white">
+                            <td class="px-4 py-2 text-sm">{{ toggle.name }}</td>
+                            <td class="px-4 py-2 text-sm font-semibold {% if toggle.status %}text-green-600{% else %}text-red-600{% endif %}">
+                                {% if toggle.status %}Enabled{% else %}Disabled{% endif %}
                             </td>
                         </tr>
-                    {% empty %}
-                        <tr><td class="p-2" colspan="2">No toggles found.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-
     </div>
 </body>
 </html>
+
