@@ -6,14 +6,14 @@ def dashboard_home(request):
     system_log = read_log("system")
     verification_log = read_log("verification")
 
-    feature_toggles = {
-        "Personality Test": True,
-        "Collaboration Profile": False,
-        "Coffee Chat": True,
-        "Ere Max": False,
-        "Cornucopia Repository": True,
-        "Private Coaching": False,
-    }
+    feature_toggles = [
+        {"name": "Personality Test", "status": True},
+        {"name": "Collaboration Profile", "status": False},
+        {"name": "Coffee Chat", "status": True},
+        {"name": "Ere Max", "status": False},
+        {"name": "Cornucopia Repository", "status": True},
+        {"name": "Private Coaching", "status": False},
+    ]
 
     return render(request, "admin_dashboard/dashboard.html", {
         "system_log": system_log,
@@ -30,4 +30,5 @@ def fetch_subscribers(request):
     log_type = "system" if success else "verification"
     write_log(log_type, message)
     return redirect("dashboard_home")
+
 
