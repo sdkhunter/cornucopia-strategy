@@ -7,11 +7,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'your-default-secret-key')
 
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'cornucopia-strategy.herokuapp.com',
-    '127.0.0.1',
-    'localhost',
-]
+ALLOWED_HOSTS = ['cornucopia-strategy-824492b6759a.herokuapp.com', 'localhost', '127.0.0.1']
+
 
 
 
