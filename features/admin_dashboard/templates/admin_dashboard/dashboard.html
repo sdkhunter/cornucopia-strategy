@@ -1,10 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Mission Control Dashboard</title>
+    <link rel="stylesheet" href="{% static 'admin_dashboard/styles.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 text-gray-900">
+
     <div class="container mx-auto p-4">
         <h1 class="text-3xl font-bold mb-6">Mission Control Dashboard</h1>
 
@@ -61,6 +64,59 @@
             </table>
         </div>
 
+
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6">Mission Control Dashboard</h1>
+
+        <div class="bg-white shadow rounded p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Actions</h2>
+            <form method="post" action="{% url 'run_orchestrator' %}" class="inline-block mr-4">
+                {% csrf_token %}
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Run Orchestrator
+                </button>
+            </form>
+            <form method="post" action="{% url 'fetch_subscribers' %}" class="inline-block">
+                {% csrf_token %}
+                <button type="submit" class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">
+                    Fetch Subscribers (Live)
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-white shadow rounded p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">System Log</h2>
+            <textarea class="w-full h-48 p-2 bg-gray-100 font-mono text-sm rounded resize-y" readonly>{{ system_log }}</textarea>
+        </div>
+
+        <div class="bg-white shadow rounded p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Subscriber Verification Log</h2>
+            <textarea class="w-full h-48 p-2 bg-gray-900 text-white font-mono text-sm rounded resize-y" readonly>{{ verification_log }}</textarea>
+        </div>
+
+        <div class="bg-white shadow rounded p-6">
+            <h2 class="text-xl font-semibold mb-4">Feature Toggles</h2>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Feature</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for toggle in feature_toggles %}
+                        <tr class="bg-white">
+                            <td class="px-4 py-2 text-sm">{{ toggle.name }}</td>
+                            <td class="px-4 py-2 text-sm font-semibold {% if toggle.status %}text-green-600{% else %}text-red-600{% endif %}">
+                                {% if toggle.status %}Enabled{% else %}Disabled{% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+ 181ed9b7414e8d674158244deb900d3dbc574d11
     </div>
 </body>
 </html>
+

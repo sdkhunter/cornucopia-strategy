@@ -5,7 +5,8 @@ import django
 import logging
 
 # Setup Django environment for standalone script execution
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cornucopia_strategy.settings")
+
 django.setup()
 
 # Optional: Setup logging
