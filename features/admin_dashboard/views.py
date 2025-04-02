@@ -20,9 +20,10 @@ def dashboard_home(request):
     toggles = FeatureToggle.objects.all().order_by("feature_name")
 
     return render(request, 'admin_dashboard/dashboard.html', {
-        'log_data': log_data,
-        'verifier_log': verifier_log,
-        'toggles': toggles}
+    'log_data': log_data,
+    'verifier_log': verifier_log,
+    'toggles': toggles,
+})
 
 from django.shortcuts import render, redirect
 from features.utils.logger import read_log, write_log
