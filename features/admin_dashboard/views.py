@@ -45,7 +45,7 @@ def dashboard_home(request):
         "system_log": system_log,
         "verification_log": verification_log,
         "feature_toggles": feature_toggles
- 181ed9b7414e8d674158244deb900d3dbc574d11
+ 
     })
 
 def run_orchestrator(request):
