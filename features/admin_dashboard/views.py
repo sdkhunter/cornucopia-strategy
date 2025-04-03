@@ -6,7 +6,8 @@ from features.admin_dashboard.models import FeatureToggle
 def dashboard_home(request):
     toggle = FeatureToggle.objects.filter(feature_name="auto_fetch").first()
     last_fetched = toggle.last_updated if toggle else None
-    return render(request, "admin_dashboard.html", {
+    return render(request, "admin_dashboard/dashboard.html", {
+
         "toggle": toggle,
         "last_fetched": last_fetched,
     })
