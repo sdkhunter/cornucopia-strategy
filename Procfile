@@ -1,3 +1,3 @@
-web: gunicorn cornucopia_strategy.wsgi
+web: gunicorn config.wsgi
 
 
