@@ -1,3 +1,4 @@
-web: gunicorn config.wsgi
+web: gunicorn cornucopia_strategy.wsgi --log-file -
+
 
 
