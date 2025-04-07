@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Subscriber</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        label { display: block; margin-top: 10px; }
+        input[type="text"], input[type="email"], input[type="number"], input[type="datetime-local"] {
+            width: 100%; padding: 6px; margin-top: 5px; box-sizing: border-box;
+        }
+        button { margin-top: 15px; padding: 8px 16px; }
+    </style>
+</head>
+<body>
+    <h2>Edit Subscriber</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>First Name:</label>
+        <input type="text" name="first_name" value="{{ subscriber.first_name }}">
+
+        <label>Last Name:</label>
+        <input type="text" name="last_name" value="{{ subscriber.last_name }}">
+
+        <label>Email:</label>
+        <input type="email" name="email" value="{{ subscriber.email }}">
+
+        <label>Subscriber Group:</label>
+        <input type="text" name="subscriber_group" value="{{ subscriber.subscriber_group }}">
+
+        <label>Shares:</label>
+        <input type="number" name="shares" value="{{ subscriber.shares }}">
+
+        <label>Credits:</label>
+        <input type="number" name="credits" value="{{ subscriber.credits }}">
+
+        <label>Total Submissions:</label>
+        <input type="number" name="total_submissions" value="{{ subscriber.total_submissions }}">
+
+        <label>Decoding Requests:</label>
+        <input type="number" name="decoding_requests" value="{{ subscriber.decoding_requests }}">
+
+        <label>Subscription Date:</label>
+        <input type="datetime-local" name="subscription_date" value="{{ subscriber.subscription_date|date:'Y-m-d\\TH:i' }}">
+
+        <button type="submit">Save Changes</button>
+        <a href="{% url 'dashboard:dashboard_home' %}">Cancel</a>
+    </form>
+</body>
+</html>
+

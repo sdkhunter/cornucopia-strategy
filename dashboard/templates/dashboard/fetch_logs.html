@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Fetch & Sync Logs</h2>
+<table border="1" cellpadding="5" style="background: white; width: 100%;">
+  <thead>
+    <tr>
+      <th>Timestamp</th>
+      <th>Script</th>
+      <th>Status</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for log in logs %}
+    <tr style="background-color: {% cycle '#e6f2ff' '#f9f9f9' %};">
+      <td>{{ log.timestamp }}</td>
+      <td>{{ log.script_name }}</td>
+      <td>{{ log.success|yesno:"✅ Success,❌ Failed" }}</td>
+      <td>{{ log.notes|default:"-" }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No logs recorded yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load tz %}
+
+{% block content %}
+<h2>Subscriber Detail</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr><th>First Name</th><td>{{ subscriber.first_name }}</td></tr>
+    <tr><th>Last Name</th><td>{{ subscriber.last_name }}</td></tr>
+    <tr><th>Email</th><td>{{ subscriber.email }}</td></tr>
+    <tr><th>Subscription Date</th>
+        <td>{% timezone "US/Pacific" %}{{ subscriber.subscription_date }}{% endtimezone %}</td></tr>
+    <tr><th>CTA URL</th><td>{{ subscriber.cta_url }}</td></tr>
+    <tr><th>CTA Source</th><td>{{ subscriber.cta_source }}</td></tr>
+    <tr><th>RefID</th><td>{{ subscriber.refid }}</td></tr>
+    <tr><th>TagID</th><td>{{ subscriber.tagid }}</td></tr>
+    <tr><th>IP Address</th><td>{{ subscriber.ip }}</td></tr>
+    <tr><th>Password</th><td>{{ subscriber.subscriber_password }}</td></tr>
+    <tr><th>Group</th><td>{{ subscriber.subscriber_group }}</td></tr>
+    <tr><th>Prefix</th><td>{{ subscriber.personality_prefix }}</td></tr>
+    <tr><th>Shares</th><td>{{ subscriber.shares }}</td></tr>
+    <tr><th>Credits</th><td>{{ subscriber.credits }}</td></tr>
+    <tr><th>Decoding Requests</th><td>{{ subscriber.decoding_requests }}</td></tr>
+    <tr><th>Total Submissions</th><td>{{ subscriber.total_submissions }}</td></tr>
+</table>
+<br>
+<a href="{% url 'home' %}">← Back to Dashboard</a>
+{% endblock %}

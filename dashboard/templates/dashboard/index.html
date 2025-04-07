@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+{% load tz %}
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        tr:nth-child(even) { background-color: #f2f9ff; }
+        tr:nth-child(odd) { background-color: #f9f9f9; }
+        th { background-color: #e8e8ff; }
+        .button-bar { margin-bottom: 15px; }
+        .button-bar button, .button-bar a {
+            padding: 6px 10px;
+            margin-right: 5px;
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .blue { background-color: #007bff; color: white; }
+        .green { background-color: #28a745; color: white; }
+        .yellow { background-color: #ffc107; color: black; }
+        .gray { background-color: #6c757d; color: white; }
+        .red { background-color: red; color: white; }
+    </style>
+</head>
+<body>
+    <h2>Admin Dashboard</h2>
+
+    <!-- Server Status Toggle and Indicator -->
+    <div style="margin-bottom: 20px;">
+        <label for="server-toggle">Switch Server:</label>
+        <select id="server-toggle" onchange="toggleServer(this)">
+            <option value="local" {% if server_type == 'local' %}selected{% endif %}>Local Server</option>
+            <option value="heroku" {% if server_type == 'heroku' %}selected{% endif %}>Heroku Server</option>
+        </select>
+        <span id="status-indicator" style="margin-left: 10px; color: green; font-weight: bold;">🟢 Server Status: Running (Local)</span>
+    </div>
+
+    <!-- Search and Pagination -->
+    <form method="get" action="" style="margin-top: 20px;">
+        <input type="text" name="q" placeholder="Search by name or email" value="{{ request.GET.q }}" />
+        <select name="paginate_by" onchange="this.form.submit()">
+            <option value="25" {% if paginate_by == '25' %}selected{% endif %}>25</option>
+            <option value="50" {% if paginate_by == '50' %}selected{% endif %}>50</option>
+            <option value="100" {% if paginate_by == '100' %}selected{% endif %}>100</option>
+            <option value="All" {% if paginate_by == 'All' %}selected{% endif %}>All</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <p>Showing {{ subscribers|length }} of {{ total_count }} subscriber{{ total_count|pluralize }}</p>
+
+    <!-- Subscriber Table -->
+    <table>
+        <thead>
+            <tr>
+                <th><a href="?sort=name">First Name</a></th>
+                <th><a href="?sort=name">Last Name</a></th>
+                <th><a href="?sort=email">Email</a></th>
+                <th><a href="?sort=subscribed">Subscribed</a></th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sub in subscribers %}
+            <tr>
+                <td>{{ sub.first_name }}</td>
+                <td>{{ sub.last_name }}</td>
+                <td>{{ sub.email }}</td>
+                <td>{% if sub.subscription_date %}{{ sub.subscription_date|localtime|timezone:"US/Pacific"|date:"m/d/Y h:i A" }}{% endif %}</td>
+                <td><a href="{% url 'dashboard:subscriber_detail' sub.pk %}">View</a></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No subscribers found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function toggleServer(select) {
+            const selectedServer = select.value;
+            const statusIndicator = document.getElementById('status-indicator');
+            
+            if (selectedServer === 'local') {
+                statusIndicator.innerText = '🟢 Server Status: Running (Local)';
+                statusIndicator.style.color = 'green';
+            } else {
+                // Check if Heroku server is reachable (basic fetch test)
+                fetch("https://your-heroku-app.herokuapp.com/")
+                    .then(response => {
+                        if (response.ok) {
+                            statusIndicator.innerText = '🟢 Server Status: Running (Heroku)';
+                            statusIndicator.style.color = 'green';
+                        } else {
+                            statusIndicator.innerText = '❌ Server Status: Not Running (Heroku)';
+                            statusIndicator.style.color = 'red';
+                        }
+                    })
+                    .catch(error => {
+                        statusIndicator.innerText = '❌ Server Status: Not Running (Heroku)';
+                        statusIndicator.style.color = 'red';
+                    });
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+

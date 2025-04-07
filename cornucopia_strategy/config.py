@@ -1,0 +1,4 @@
+import os
+
+MAILERLITE_API_KEY = os.environ.get('MAILERLITE_API_KEY')
+MAILERLITE_GROUP_ID = os.environ.get('MAILERLITE_GROUP_ID')

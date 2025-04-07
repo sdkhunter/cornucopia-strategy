@@ -1,13 +1,28 @@
 import os
+from dotenv import load_dotenv
 from pathlib import Path
 
+# Load .env file manually from the root of your project
+env_path = Path(__file__).resolve().parent.parent / '.env'
+load_dotenv(dotenv_path=env_path)
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
+
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 SECRET_KEY = 'django-insecure-replace-me'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'core',
     'dashboard',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -15,6 +30,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+
+   
 ]
 
 MIDDLEWARE = [
@@ -32,7 +50,7 @@ ROOT_URLCONF = 'cornucopia_strategy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

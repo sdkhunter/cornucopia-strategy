@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Subscriber Detail</title>
+</head>
+<body>
+    <h1>Subscriber Detail</h1>
+    <ul>
+        <li><strong>First Name:</strong> {{ subscriber.first_name }}</li>
+        <li><strong>Last Name:</strong> {{ subscriber.last_name }}</li>
+        <li><strong>Email:</strong> {{ subscriber.email }}</li>
+        <li><strong>Subscribed:</strong> {{ subscriber.subscription_date|date:"F j, Y, g:i a" }}</li>
+        <li><strong>CTA URL:</strong> {{ subscriber.cta_url }}</li>
+        <li><strong>CTA Source:</strong> {{ subscriber.cta_source }}</li>
+        <li><strong>RefID:</strong> {{ subscriber.refid }}</li>
+        <li><strong>Tag ID:</strong> {{ subscriber.tagid }}</li>
+        <li><strong>Subscriber Password:</strong> {{ subscriber.subscriber_password }}</li>
+        <li><strong>Subscriber Group:</strong> {{ subscriber.subscriber_group }}</li>
+        <li><strong>Personality Prefix:</strong> {{ subscriber.personality_prefix }}</li>
+        <li><strong>Shares:</strong> {{ subscriber.shares }}</li>
+        <li><strong>Credits:</strong> {{ subscriber.credits }}</li>
+        <li><strong>Decoding Requests:</strong> {{ subscriber.decoding_requests }}</li>
+        <li><strong>Total Submissions:</strong> {{ subscriber.total_submissions }}</li>
+    </ul>
+    <a href="{% url 'dashboard:edit_subscriber' subscriber.id %}">✏️ Edit Subscriber</a>
+    <a href="{% url 'dashboard:delete_subscriber' subscriber.id %}">🗑️ Delete Subscriber</a>
+
+    <a href="{% url 'dashboard:dashboard_home' %}">Back to Dashboard</a>
+
+</body>
+</html>
+
